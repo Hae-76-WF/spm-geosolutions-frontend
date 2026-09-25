@@ -50,7 +50,7 @@ export const ForgotPasswordView: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '85vh', py: 8, display: 'flex', alignItems: 'center', bgcolor: '#f8fafc' }}>
+    <Box sx={{ minHeight: '50vh', display: 'flex', alignItems: 'center', bgcolor: '#f8fafc' }}>
       <Container maxWidth="sm">
         <Paper
           elevation={3}
@@ -146,7 +146,7 @@ export const ForgotPasswordView: React.FC = () => {
           <Box sx={{ textAlign: 'center' }}>
             <Button
               component={Link}
-              href="/login"
+              href="/auth/login"
               startIcon={<ArrowLeft size={16} />}
               sx={{ textTransform: 'none', fontWeight: 700, color: '#034732' }}
             >

@@ -290,7 +290,7 @@ export const RegisterView: React.FC = () => {
                 Already registered?{' '}
                 <Button
                   component={Link}
-                  href="/login"
+                  href="/auth/login"
                   sx={{ textTransform: 'none', fontWeight: 700, color: '#034732', p: 0 }}
                 >
                   Sign In to Existing Account

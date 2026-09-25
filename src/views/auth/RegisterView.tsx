@@ -68,7 +68,7 @@ export const RegisterView: React.FC = () => {
 
       if (result && result.success) {
         if (result.requires_verification) {
-          router.push(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+          router.push(`/auth/verify-email?email=${encodeURIComponent(email.trim())}`);
         } else {
           router.push('/client');
         }
@@ -83,7 +83,7 @@ export const RegisterView: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '85vh', py: 8, bgcolor: '#f8fafc' }}>
+    <Box sx={{ minHeight: '50vh' }}>
       <Container maxWidth="lg">
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1.2fr' }, gap: 4 }}>
           {/* Visual Card */}
@@ -286,7 +286,7 @@ export const RegisterView: React.FC = () => {
                 Already registered?{' '}
                 <Button
                   component={Link}
-                  href="/login"
+                  href="/auth/login"
                   sx={{ textTransform: 'none', fontWeight: 700, color: '#034732', p: 0 }}
                 >
                   Sign In to Existing Account

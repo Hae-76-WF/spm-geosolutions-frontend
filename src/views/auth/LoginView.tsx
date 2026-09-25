@@ -50,7 +50,7 @@ export const LoginView: React.FC = () => {
         const role = useAppStore.getState().currentUser.role;
         router.push(role === 'admin' ? '/admin' : '/client');
       } else if (res && res.requires_verification) {
-        router.push(`/verify-email?email=${encodeURIComponent(email.trim())}`);
+        router.push(`/auth/verify-email?email=${encodeURIComponent(email.trim())}`);
       } else {
         setErrorMessage(res?.message || 'Sign-in failed. Please check your credentials and try again.');
       }
@@ -70,11 +70,9 @@ export const LoginView: React.FC = () => {
   return (
     <Box
       sx={{
-        minHeight: 'calc(100vh - 76px)',
+        minHeight: '50vh',
         display: 'flex',
         alignItems: 'center',
-        py: { xs: 5, md: 8 },
-        bgcolor: '#FFFDF2',
       }}
     >
       <Container maxWidth="lg">
@@ -259,7 +257,7 @@ export const LoginView: React.FC = () => {
                     }}
                   />
                   <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-                    <Link href="/forgot-password" style={{ textDecoration: 'none' }}>
+                    <Link href="/auth/forgot-password" style={{ textDecoration: 'none' }}>
                       <Typography variant="caption" sx={{ color: '#034732', fontWeight: 700, '&:hover': { textDecoration: 'underline' } }}>
                         Forgot Password?
                       </Typography>
@@ -295,7 +293,7 @@ export const LoginView: React.FC = () => {
               </Typography>
               <Button
                 component={Link}
-                href="/register"
+                href="/auth/register"
                 sx={{ textTransform: 'none', fontWeight: 800, color: '#034732' }}
               >
                 Register New Practice / Account

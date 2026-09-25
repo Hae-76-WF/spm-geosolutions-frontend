@@ -136,7 +136,7 @@ export const Footer: React.FC = () => {
               <FooterLink href="/academy">SPM Academy</FooterLink>
               <FooterLink href="/pricing">Project and retainer options</FooterLink>
               <FooterLink href="/quote-calculator">Request a project scope</FooterLink>
-              <FooterLink href="/login">Client portal</FooterLink>
+              <FooterLink href="/auth/login">Client portal</FooterLink>
               <FooterLink href="/contact">Contact our team</FooterLink>
             </Box>
           </Box>

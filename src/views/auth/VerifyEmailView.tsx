@@ -96,8 +96,8 @@ export const VerifyEmailView: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '85vh', py: 8, display: 'flex', alignItems: 'center', bgcolor: '#f8fafc' }}>
-      <Container maxWidth="sm">
+    <Box sx={{ minHeight: '50vh', display: 'flex', alignItems: 'center' }}>
+      <Container>
         <Paper
           elevation={3}
           sx={{

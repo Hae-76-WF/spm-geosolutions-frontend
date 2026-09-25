@@ -9,19 +9,18 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #034732 100%)',
+        height: '100vh',
+          width: '100vw',
+        background: '#f8fafc',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        py: 6,
-        px: 2,
       }}
     >
-      <Container maxWidth="sm">
+
         {/* Brand Header */}
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Box sx={{ textAlign: 'center', pt: 9, pb: 3 }}>
           <Box
             component={Link}
             href="/"
@@ -48,7 +47,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             >
               <PublicIcon sx={{ color: '#ffffff', fontSize: 26 }} />
             </Box>
-            <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: 0.5, color: '#ffffff' }}>
+            <Typography variant="h5" sx={{ fontWeight: 800, letterSpacing: 0.5, color: '#044530' }}>
               SPM <Box component="span" sx={{ color: '#10b981' }}>GEOSOLUTIONS</Box>
             </Typography>
           </Box>
@@ -69,7 +68,6 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             </MuiLink>
           </Typography>
         </Box>
-      </Container>
     </Box>
   );
 }

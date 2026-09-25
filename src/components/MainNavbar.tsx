@@ -29,6 +29,7 @@ import {
   FileCheck,
 } from 'lucide-react';
 import { useAppStore } from '../store/useAppStore';
+import { Stack } from "@mui/material";
 
 interface NavLink {
   href: string;
@@ -289,7 +290,7 @@ export const MainNavbar: React.FC = () => {
                   {currentUser.role === 'admin' && (
                     <MenuItem
                       component={Link}
-                      href="/admin"
+                      href="https://admin.spmgeosolutions.com"
                       onClick={handleCloseUserMenu}
                       selected={pathname.startsWith('/admin')}
                       sx={{
@@ -449,7 +450,24 @@ export const MainNavbar: React.FC = () => {
                 </Menu>
               </Box>
             ) : (
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Stack direction={'row'} sx={{ gap: 1 }}>
+                <Button
+                    variant="contained"
+                    size="small"
+                    component={Link}
+                    href="/auth/register"
+                    sx={{
+                      borderColor: '#034732',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      textTransform: 'none',
+                      borderRadius: 2,
+                      px: 2.5,
+                      py: 0.9,
+                    }}
+                >
+                  Register
+                </Button>
                 <Button
                   variant="outlined"
                   size="small"
@@ -467,7 +485,7 @@ export const MainNavbar: React.FC = () => {
                 >
                   Sign In
                 </Button>
-              </Box>
+              </Stack>
             )}
           </Box>
 

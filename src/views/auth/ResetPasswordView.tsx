@@ -71,7 +71,7 @@ export const ResetPasswordView: React.FC = () => {
         setSuccessMessage('Password reset successfully! Redirecting to login page...');
         showSnackbar('Password reset successfully!', 'success');
         setTimeout(() => {
-          router.push('/login');
+          router.push('/auth/login');
         }, 1500);
       } else {
         setErrorMessage(result.message || 'Failed to reset password. Link may be invalid or expired.');
@@ -84,7 +84,7 @@ export const ResetPasswordView: React.FC = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '85vh', py: 8, display: 'flex', alignItems: 'center', bgcolor: '#f8fafc' }}>
+    <Box sx={{ minHeight: '50vh', display: 'flex', alignItems: 'center' }}>
       <Container maxWidth="sm">
         <Paper
           elevation={3}
@@ -240,7 +240,7 @@ export const ResetPasswordView: React.FC = () => {
           <Box sx={{ textAlign: 'center' }}>
             <Button
               component={Link}
-              href="/login"
+              href="/auth/login"
               sx={{ textTransform: 'none', fontWeight: 700, color: '#034732' }}
             >
               Back to Sign In
