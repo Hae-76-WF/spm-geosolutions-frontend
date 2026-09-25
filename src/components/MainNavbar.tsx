@@ -458,7 +458,7 @@ export const MainNavbar: React.FC = () => {
                     href="/auth/register"
                     sx={{
                       borderColor: '#034732',
-                      color: '#ffffff',
+                      color: '#f6f2f2',
                       fontWeight: 700,
                       textTransform: 'none',
                       borderRadius: 2,
