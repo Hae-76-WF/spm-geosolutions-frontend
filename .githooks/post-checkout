@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -e
+
+CHECKOUT_FLAG=$3
+
+if [ "$CHECKOUT_FLAG" -ne 1 ]; then
+  exit 0
+fi
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+echo "🔀 [Git Post-Checkout Hook] Switched to branch: '$CURRENT_BRANCH'"
+
+if [ -f ".env" ]; then
+  cp .env .env.backup
+fi
+
+case "$CURRENT_BRANCH" in
+  "prod" | "production")
+    if [ -f ".env.prod" ]; then
+      cp .env.prod .env
+      echo "✅ [Environment Switch] Applied '.env.prod' to '.env' for Production environment."
+    else
+      echo "❌ [ERROR] '.env.prod' file missing!"
+    fi
+    ;;
+  "staging")
+    if [ -f ".env.staging" ]; then
+      cp .env.staging .env
+      echo "✅ [Environment Switch] Applied '.env.staging' to '.env' for Staging environment."
+    else
+      echo "❌ [ERROR] '.env.staging' file missing!"
+    fi
+    ;;
+  "develop" | "dev" | "main" | "master")
+    if [ -f ".env.dev" ]; then
+      cp .env.dev .env
+      echo "✅ [Environment Switch] Applied '.env.dev' to '.env' for Development environment."
+    else
+      echo "ℹ️ '.env.dev' missing, keeping existing '.env'."
+    fi
+    ;;
+  *)
+    echo "ℹ️ Switched to feature branch '$CURRENT_BRANCH'. Retaining current '.env'."
+    ;;
+esac
+
+exit 0

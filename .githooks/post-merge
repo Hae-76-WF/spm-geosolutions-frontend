@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -e
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+
+echo "🔀 [Git Post-Merge Hook] Triggered on branch: '$CURRENT_BRANCH'"
+
+if [ -f ".env" ]; then
+  cp .env .env.backup
+  echo "  ↳ Backed up .env to .env.backup"
+fi
+
+if [ "$CURRENT_BRANCH" == "prod" ]; then
+  if [ -f ".env.prod" ]; then
+    cp .env.prod .env
+    echo "✅ [Post-Merge] Applied '.env.prod' to '.env'."
+  else
+    echo "⚠️ [WARNING] .env.prod file missing!"
+  fi
+elif [ "$CURRENT_BRANCH" == "staging" ]; then
+  if [ -f ".env.staging" ]; then
+    cp .env.staging .env
+    echo "✅ [Post-Merge] Applied '.env.staging' to '.env'."
+  else
+    echo "⚠️ [WARNING] .env.staging file missing!"
+  fi
+else
+  echo "ℹ️ [Post-Merge] Branch '$CURRENT_BRANCH' is retaining existing environment."
+fi
+
+echo "📦 [Post-Merge] Updating Node packages (npm install)..."
+npm install --silent || echo "⚠️ npm install finished with warnings."
+
+exit 0

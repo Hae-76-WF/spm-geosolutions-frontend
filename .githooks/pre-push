@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🚀 [Git Pre-Push Hook] Checking push target branch..."
+
+IS_PROD_PUSH=0
+
+while read local_ref local_sha remote_ref remote_sha; do
+  if [[ "$remote_ref" =~ "refs/heads/prod" ]]; then
+    IS_PROD_PUSH=1
+    break
+  fi
+done
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+
+if [ "$IS_PROD_PUSH" -eq 1 ] || [ "$CURRENT_BRANCH" == "prod" ]; then
+  echo "📌 [Pre-Push] Target branch is 'prod'. Applying '.env.prod' for push..."
+  
+  if [ -f ".env" ]; then
+    cp .env .env.backup
+    echo "  ↳ Backed up current .env to .env.backup"
+  fi
+
+  if [ -f ".env.prod" ]; then
+    cp .env.prod .env
+    echo "✅ Applied .env.prod to .env"
+  else
+    echo "❌ [ERROR] .env.prod file not found!"
+    exit 1
+  fi
+
+  restore_env() {
+    echo "🔄 [Pre-Push Cleanup] Restoring local development environment..."
+    if [ -f ".env.backup" ]; then
+      mv .env.backup .env
+      echo "✅ Restored .env from .env.backup"
+    elif [ -f ".env.dev" ]; then
+      cp .env.dev .env
+      echo "✅ Restored .env from .env.dev"
+    fi
+  }
+
+  trap restore_env EXIT
+fi
+
+echo "✅ [Git Pre-Push Hook] Ready for push."
+exit 0

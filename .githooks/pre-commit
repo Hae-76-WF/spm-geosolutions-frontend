@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🔍 [Git Pre-Commit Hook] Running Frontend code checks..."
+
+# Check TypeScript type safety
+echo "  ↳ Checking TypeScript types (tsc --noEmit)..."
+if ! npx tsc --noEmit; then
+  echo "❌ [ERROR] Pre-commit failed: TypeScript compilation errors detected."
+  exit 1
+fi
+
+# Check Next.js linting
+echo "  ↳ Running Next.js Linter (npm run lint)..."
+if ! npm run lint; then
+  echo "❌ [ERROR] Pre-commit failed: Linter errors detected."
+  exit 1
+fi
+
+# Check Prettier formatting if available
+if npx prettier --version &>/dev/null; then
+  echo "  ↳ Checking Prettier code formatting..."
+  if ! npx prettier --check "src/**/*.{ts,tsx,js,jsx,css,json}" &>/dev/null; then
+    echo "⚠️ [WARNING] Prettier formatting issues detected. Running automatic fix..."
+    npx prettier --write "src/**/*.{ts,tsx,js,jsx,css,json}"
+    echo "✅ Formatting fixes applied."
+  fi
+fi
+
+echo "✅ [Git Pre-Commit Hook] All frontend checks passed successfully!"
+exit 0
