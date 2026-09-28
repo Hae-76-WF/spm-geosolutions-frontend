@@ -57,7 +57,7 @@ export const AdminNavbar: React.FC = () => {
   const handleLogout = () => {
     handleCloseMenu();
     logout();
-    router.replace('/auth/login');
+    router.replace('/');
   };
 
   const navMenuItems = [
@@ -104,7 +104,7 @@ export const AdminNavbar: React.FC = () => {
         >
           {/* Brand & Subdomain Info */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Link href="/admin" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
               <Box
                 component="img"
                 src="/logo.png"

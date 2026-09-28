@@ -1,9 +1,10 @@
-import axios from 'axios';
+﻿import axios from 'axios';
 
 // Create configured Axios instance for SPM Geosolutions API
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.spmgeosolutions.com/api',
   timeout: 30000,
+  withCredentials: true, // Enables cross-subdomain HTTP-Only cookies
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',

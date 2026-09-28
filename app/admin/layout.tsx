@@ -1,40 +1,26 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import { useRouter } from 'next/navigation';
 import { AdminNavbar } from '@/components/AdminNavbar';
 import { AdminSidebar } from '@/components/AdminSidebar';
+import { AdminAuthView } from '@/views/admin/AdminAuthView';
 import { useAppStore } from '@/store/useAppStore';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const {
     isLoggedIn,
     isSessionLoading,
     currentUser,
     initializeSession,
-    showSnackbar,
   } = useAppStore();
 
   useEffect(() => {
     initializeSession();
   }, [initializeSession]);
-
-  useEffect(() => {
-    if (!isSessionLoading) {
-      if (!isLoggedIn) {
-        showSnackbar('Please log in with an administrator account to access the Admin Portal.', 'warning');
-        router.replace('/login');
-      } else if (currentUser.role !== 'admin') {
-        showSnackbar('Access denied: Administrator privileges required.', 'error');
-        router.replace('/client');
-      }
-    }
-  }, [isLoggedIn, isSessionLoading, currentUser, router, showSnackbar]);
 
   if (isSessionLoading) {
     return (
@@ -58,9 +44,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  // Prevent rendering unauthorized dashboard content during redirect
+  // If user is unauthenticated or not an admin, render the isolated Admin System Sign-In Portal
   if (!isLoggedIn || currentUser.role !== 'admin') {
-    return null;
+    return <AdminAuthView />;
   }
 
   return (

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import {
   UserProfile,
   UserSettings,
@@ -306,11 +306,6 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Auth Actions
   initializeSession: async () => {
     const token = typeof localStorage !== 'undefined' ? localStorage.getItem('spm_auth_token') : null;
-
-    if (!token) {
-      set({ isLoggedIn: false, authToken: null, currentUser: EMPTY_USER, isSessionLoading: false });
-      return;
-    }
 
     set({ authToken: token, isSessionLoading: true });
 
@@ -986,3 +981,5 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ snackbar: { ...get().snackbar, open: false } });
   },
 }));
+
+

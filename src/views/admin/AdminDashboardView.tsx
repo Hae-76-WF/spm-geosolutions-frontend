@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
@@ -7,9 +7,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import { ShieldAlert, RefreshCw } from 'lucide-react';
-import { useAppStore } from '../../store/useAppStore';
+import { ShieldAlert, RefreshCw, LogOut } from 'lucide-react';
+import { useAppStore } from '@/store/useAppStore';
 import { AdminSidebar } from '../../components/AdminSidebar';
+import { AdminAuthView } from './AdminAuthView';
 import { AdminTelemetrySection } from './sections/AdminTelemetrySection';
 import { AdminUsersSection } from './sections/AdminUsersSection';
 import { AdminEventBusSection } from './sections/AdminEventBusSection';
@@ -17,19 +18,29 @@ import { AdminAuditTrailSection } from './sections/AdminAuditTrailSection';
 
 export const AdminDashboardView: React.FC = () => {
   const {
+    isLoggedIn,
+    currentUser,
     adminDestination,
     fetchAdminMetrics,
     fetchAdminEvents,
     fetchAuditLogs,
+    logout,
     setAdminSubdomainOverride,
     showSnackbar,
   } = useAppStore();
 
   useEffect(() => {
-    fetchAdminMetrics();
-    fetchAdminEvents();
-    fetchAuditLogs();
-  }, [fetchAdminMetrics, fetchAdminEvents, fetchAuditLogs]);
+    if (isLoggedIn && currentUser.role === 'admin') {
+      fetchAdminMetrics();
+      fetchAdminEvents();
+      fetchAuditLogs();
+    }
+  }, [isLoggedIn, currentUser, fetchAdminMetrics, fetchAdminEvents, fetchAuditLogs]);
+
+  // If user is not authenticated or does not have role 'admin', show separate Admin Auth portal
+  if (!isLoggedIn || currentUser.role !== 'admin') {
+    return <AdminAuthView />;
+  }
 
   const renderSection = () => {
     switch (adminDestination) {
@@ -79,12 +90,12 @@ export const AdminDashboardView: React.FC = () => {
                 <Chip label="ISOLATED SUBDOMAIN" size="small" color="error" sx={{ fontWeight: 800 }} />
               </Box>
               <Typography variant="caption" sx={{ color: '#94a3b8' }}>
-                Zero public navigation exposure • Superuser RBAC & Cluster Management
+                Logged in as superuser: <strong>{currentUser.email}</strong> ({currentUser.name})
               </Typography>
             </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 1.5 }}>
+          <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
             <Button
               variant="outlined"
               size="small"
@@ -103,9 +114,13 @@ export const AdminDashboardView: React.FC = () => {
               variant="contained"
               size="small"
               color="error"
-              onClick={() => setAdminSubdomainOverride(false)}
+              startIcon={<LogOut size={14} />}
+              onClick={() => {
+                logout();
+                showSnackbar('Admin session terminated.', 'info');
+              }}
             >
-              Exit Subdomain
+              Sign Out Admin
             </Button>
           </Box>
         </Paper>
@@ -121,3 +136,4 @@ export const AdminDashboardView: React.FC = () => {
     </Box>
   );
 };
+
